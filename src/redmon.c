@@ -268,7 +268,8 @@ void write_string_to_log(REDATA *prd, LPCTSTR buf)
 DWORD cbWritten;
 #ifdef UNICODE
 int count;
-CHAR cbuf[256];
+int cbBuff = 0;
+CHAR cbuf[256] = {0};
 BOOL UsedDefaultChar;
 #endif
     if (prd->hLogFile == INVALID_HANDLE_VALUE)
@@ -280,7 +281,8 @@ BOOL UsedDefaultChar;
 	count = min(lstrlen(buf), sizeof(cbuf));
 	WideCharToMultiByte(CP_ACP, 0, buf, count,
 		cbuf, sizeof(cbuf), NULL, &UsedDefaultChar);
-	buf += count;
+	if (cbBuff == 0 ) break;
+	buf += MultiByteToWideChar(CP_ACP, 0, cbuf, cbBuff, NULL, 0);
 	WriteFile(prd->hLogFile, cbuf, count, &cbWritten, NULL);
     }
 #else

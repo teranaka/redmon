@@ -49,8 +49,11 @@ VISUALC=9
 !if "$(_NMAKE_VER)" == "10.00.30319.01"
 VISUALC=10
 !endif
+!if "$(_NMAKE_VER)" == "11.00.61030.0"
+VISUALC=11
+!endif
 !ifndef VISUALC
-VISUALC=10
+VISUALC=11
 !endif
 
 
@@ -59,29 +62,32 @@ VISUALC=10
 DEVBASE=c:\devstudio
 !endif
 !if $(VISUALC) == 6
-DEVBASE=c:\Program Files\Microsoft Visual Studio
+DEVBASE=C:\Program Files (x86)\Microsoft Visual Studio
 !endif
 !if $(VISUALC) == 7
-DEVBASE=c:\Program Files\Microsoft Visual Studio .NET
+DEVBASE=C:\Program Files (x86)\Microsoft Visual Studio .NET
 !endif
 !if $(VISUALC) == 71
-DEVBASE=c:\Program Files\Microsoft Visual Studio .NET 2003
+DEVBASE=C:\Program Files (x86)\Microsoft Visual Studio .NET 2003
 !endif
 !if $(VISUALC) == 8
-DEVBASE=c:\Program Files\Microsoft Visual Studio 8
+DEVBASE=C:\Program Files (x86)\Microsoft Visual Studio 8
 !endif
 !if $(VISUALC) == 9
-DEVBASE=c:\Program Files\Microsoft Visual Studio 9.0
+DEVBASE=C:\Program Files (x86)\Microsoft Visual Studio 9.0
 !endif
 !if $(VISUALC) == 10
-DEVBASE=c:\Program Files\Microsoft Visual Studio 10.0
+DEVBASE=C:\Program Files (x86)\Microsoft Visual Studio 10.0
+!endif
+!if $(VISUALC) == 11
+DEVBASE=C:\Program Files (x86)\Microsoft Visual Studio 11.0
 !endif
 
 
 !if $(VISUALC) >= 9
 # Windows Driver Kit 7.1.0
-DDKINC=C:\WinDDK\7600.16385.1\inc\win7
-DDKLIB=C:\WinDDK\7600.16385.1\lib\win7\i386
+DDKINC=C:\WinDDK\7600.16385.0\inc\win7
+DDKLIB=C:\WinDDK\7600.16385.0\lib\win7\i386
 !else
 # Windows 2003 SP1 DDK
 DDKINC=C:\WinDDK\3790.1830\inc\wxp
@@ -117,16 +123,23 @@ PLATLIBDIR64=C:\WinDDK\3790.1830\lib\wnet\AMD64
 
 !if $(VISUALC) == 9
 COMPBASE = $(DEVBASE)\Vc
-RCOMP="c:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\rc"
+RCOMP="C:\Program Files (x86)\Microsoft SDKs\Windows\v6.0A\bin\rc"
 VFLAGS=/wd4996
-PLATLIBDIR64=c:\Program Files\Microsoft SDKs\Windows\v6.0A\lib\x64
+PLATLIBDIR64=C:\Program Files (x86)\Microsoft SDKs\Windows\v6.0A\lib\x64
 !endif
 
 !if $(VISUALC) == 10
 COMPBASE = $(DEVBASE)\Vc
-RCOMP="c:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\rc"
+RCOMP="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc"
 VFLAGS=/wd4996
-PLATLIBDIR64=c:\Program Files\Microsoft SDKs\Windows\v7.0A\lib\x64
+PLATLIBDIR64=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\lib\x64
+!endif
+
+!if $(VISUALC) == 11
+COMPBASE = $(DEVBASE)\Vc
+RCOMP="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\bin\rc"
+VFLAGS=/wd4996
+PLATLIBDIR64=C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\lib\x64
 !endif
 
 COMPDIR=$(COMPBASE)\bin
@@ -157,7 +170,7 @@ PLATLIBDIR=c:\Prograil Files\Microsoft SDKs\Windows\v&.0A\Lib
 PLATLIBDIR=$(COMPBASE)\PlatformSDK\lib
 !else if (($(VISUALC) == 7) || ($(VISUALC) == 71))
 #PLATLIBDIR=$(COMPBASE)\PlatformSDK\lib
-PLATLIBDIR=C:\WinDDK\7600.16385.1\lib\win7\i386
+PLATLIBDIR=C:\WinDDK\7600.16385.0\lib\win7\i386
 !else
 PLATLIBDIR=$(LIBDIR)
 !endif
@@ -255,7 +268,7 @@ redmon.chm: $(LANGUAGE)\redmon.txt doc2hhp.exe
 	copy $(LANGUAGE)\redmon.txt htmlhelp
 	cd htmlhelp
 	..\doc2hhp redmon.txt redmon.hhp
-	-"C:\Program Files\HTML Help Workshop\hhc.exe" redmon.hhp
+	-"C:\Program Files (x86)\HTML Help Workshop\hhc.exe" redmon.hhp
 	cd ..
 	copy htmlhelp\redmon.chm .
 
@@ -535,9 +548,9 @@ veryclean: clean
 
 zip:
 	copy src.txt ..
-        copy README.TXT ..
+	copy README.TXT ..
 	copy FILE_ID.DIZ ..
-	copy LICENCE ..
+	copy LICENCE.TXT ..
 	copy redmon.chm ..
 #	copy redmon35.dll ..
 #	copy redmon95.dll ..
